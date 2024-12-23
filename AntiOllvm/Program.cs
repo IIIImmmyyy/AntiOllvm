@@ -53,7 +53,6 @@ namespace AntiOllvm
             Config config = new Config();
             config.ida_cfg_path = @"E:\RiderDemo\AntiOllvm\AntiOllvm\cfg_output_0x17f46c.json";
             config.fix_outpath = @"E:\RiderDemo\AntiOllvm\AntiOllvm\fix.json";
-            config.force_no_child_main = true;
             App.Init(config);
         }
 

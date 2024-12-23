@@ -6,6 +6,7 @@ namespace AntiOllvm.Helper;
 
 public static class ChildDispatchFinder
 {
+ 
     /**
      * Find Child when this block only 2 instruction
      * CMP W8,W9
@@ -178,8 +179,8 @@ public static class ChildDispatchFinder
      CMP W8,W23
      B.EQ loc_17F640
      */
-    private static bool HasChildMainChil3(Block block, RegisterContext context,
-        List<string> childOperandsName, List<Block> multiChildMainBlocks)
+    private static bool HasChildDispatcher3(Block block, RegisterContext context,
+        List<string> childOperandsName)
     {
         bool isCompare = false;
         bool isHaveConditionJump = false;
@@ -298,7 +299,7 @@ public static class ChildDispatchFinder
 
         if (block.instructions.Count == 3)
         {
-            if (HasChildMainChil3(block, context, childOperandsName, multiChildMainBlocks))
+            if (HasChildDispatcher3(block, context, childOperandsName))
             {
                 return true;
             }
@@ -306,7 +307,26 @@ public static class ChildDispatchFinder
 
         return false;
     }
-
+    
+    /**
+     * 0x17f754   MOV W10,#0x8614E721
+     0x17f75c   B loc_17F59C
+     */
+    
+    
+    
+    /** //Find in this case
+     * MOV             W9, #0xF0EA4675
+      CMP              W8, W9
+      B.LE             loc_17E5BC
+     */
+    public static bool IsHasChildDispatcherFlagWithMoveRegisterAndCMP(Block block, RegisterContext registerContext,
+        string operandsName)
+    {
+        var childOperandsName = new List<string> { operandsName };
+        return HasChildDispatcher3(block, registerContext, childOperandsName);
+    }
+  
     public static bool IsChildMainChildDispatch(Block curBlock, RegisterContext registerContext,
         List<string> childOperandsName, List<Block> multiChildMainBlocks)
     {

@@ -466,8 +466,20 @@ public class Simulation
             Logger.ErrorNewline($"Not B Ins Find Block {block.start_address} Link To {realBlock.start_address}");
             list.Add(realBlock);
         }
-
-
+        else
+        {
+            Logger.ErrorNewline("Warning  " + block.start_address + " is not Update Dispatch and not Jump  \n"+
+                                block);   
+            //got link Block
+            var links = block.GetLinkedBlocks(this);
+            if (links.Count == 0)
+            {
+                return list;
+            }
+            var realBlock = FindRealBlock(links[0]);
+            Logger.ErrorNewline($" Not Update Dispatch and not Jump Find Block {block.start_address} Link To {realBlock.start_address}");
+            list.Add(realBlock);
+        }
         return list;
     }
 
